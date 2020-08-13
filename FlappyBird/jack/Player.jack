@@ -1,0 +1,107 @@
+
+class Player {
+   field int xPos;
+   field int yPos;
+   field int yVel;
+   field int position;
+   field int skin; // animation frame
+   field int tick; // internal clock
+   field boolean gravity; 
+   field boolean animation_direction_up;
+
+   constructor Player new(int x, int y) {
+      do reset(x, y);
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void jump() {
+      let yVel = -4;
+      if (~gravity) {
+         let gravity = true;
+      }
+      return;
+   }
+
+   method void tick() {
+      // update skin and gravity every couple ticks
+      let tick = tick + 1;
+      if (tick = 5) {
+         let tick = 0;
+         let skin = skin + 1;
+         if (yVel < 6) {
+            let yVel = yVel + 1;
+         }
+         if (skin = 4) { let skin = 0; }
+      }
+      // apply gravity to position (if on)
+      if (gravity) {
+         if (yVel > 0) {
+            if (yPos < (221-yVel)) {
+               let yPos = yPos + yVel;
+               let position = position + (yVel*32);
+            }
+         } else {
+            if (yPos > -yVel) {
+               let yPos = yPos + yVel;
+               let position = position + (yVel*32);
+            } else {
+               let yVel = 0;
+            }
+         }
+      // apply animation (gravity is off)
+      }  else {
+         if (animation_direction_up) {
+            if ((tick = 1)) {
+               let yPos = yPos - 1;
+               let position = position - 32;
+            if (yPos < 118) {let animation_direction_up = false;}}
+         } else {
+            if ((tick = 1)) {
+               let yPos = yPos + 1;
+               let position = position + 32;
+            if (yPos > 138) {let animation_direction_up = true;}}
+         }
+      }
+      return;
+   }
+
+   method void render() {
+      if (skin = 0) { do SpriteManager.draw_flappy1(position); }
+      else { if (skin = 1) { do SpriteManager.draw_flappy2(position); } 
+      else { if (skin = 2) { do SpriteManager.draw_flappy3(position); } 
+      else { if (skin = 3) { do SpriteManager.draw_flappy2(position); } 
+      } } }
+      return;
+   }
+
+   method void update() {
+      do tick();
+      do render();
+      return;
+   }
+
+   method int x() {
+      return xPos;
+   }
+
+   method int y() {
+      return yPos;
+   }
+
+   method void reset(int x, int y) {
+      let xPos = (x*16);
+      let yPos = y;
+      let yVel = 0;
+      let position = (x+(32*yPos));
+      let skin = 0;
+      let tick = 0;
+      let gravity = false;
+      let animation_direction_up = true;
+      return;
+   }
+}

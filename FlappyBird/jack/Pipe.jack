@@ -1,0 +1,123 @@
+
+class Pipe {
+   static int xVel;
+   static int yGap;
+   //
+   field int xPos;
+   field int yPos;
+   field int tick; // internal clock
+   field boolean coin; // passed player?
+
+   // setup the global pipe options
+   function void init(int ixVel, int iyGap) {
+      let xVel = ixVel;
+      let yGap = iyGap;
+      return;
+   }
+
+   constructor Pipe new(int x, int y) {
+      do reset(x, y);
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void draw() {
+      // Draw next frame
+      do Screen.setColor(true);
+      // head bottom
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+30, Math.min(Math.max(xPos+44,0),511), yPos+31);  // top side
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+54, Math.min(Math.max(xPos+44,0),511), yPos+55);  // bottom side
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+30, Math.min(Math.max(xPos-1,0),511), yPos+54);   // left side
+      do Screen.drawRectangle(Math.min(Math.max(xPos+44,0),511), yPos+30, Math.min(Math.max(xPos+45,0),511), yPos+55); // right side
+      do Screen.drawRectangle(Math.min(Math.max(xPos+42,0),511), yPos+30, Math.min(Math.max(xPos+42,0),511), yPos+55); // right shadow
+      // body bottom
+      do Screen.drawRectangle(Math.min(Math.max(xPos,0),511), yPos+54, Math.min(Math.max(xPos+1,0),511), 255);         // left wall
+      do Screen.drawRectangle(Math.min(Math.max(xPos+42,0),511), yPos+54, Math.min(Math.max(xPos+43,0),511), 255);     // right wall
+      do Screen.drawRectangle(Math.min(Math.max(xPos+40,0),511), yPos+54, Math.min(Math.max(xPos+40,0),511), 255);     // right shadow
+      // head top
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+(-yGap), Math.min(Math.max(xPos+45,0),511), yPos+(-(yGap-1)));       // top
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+(-(yGap+25)), Math.min(Math.max(xPos+45,0),511), yPos+(-(yGap+24))); // bottom
+      do Screen.drawRectangle(Math.min(Math.max(xPos-2,0),511), yPos+(-(yGap+23)), Math.min(Math.max(xPos-1,0),511), yPos+(-yGap));       // left
+      do Screen.drawRectangle(Math.min(Math.max(xPos+44,0),511), yPos+(-(yGap+25)), Math.min(Math.max(xPos+45,0),511), yPos+(-yGap));     // right
+      do Screen.drawRectangle(Math.min(Math.max(xPos+42,0),511), yPos+(-(yGap+25)), Math.min(Math.max(xPos+42,0),511), yPos+(-yGap));     // shadow
+      // body top
+      do Screen.drawRectangle(Math.min(Math.max(xPos,0),511), 0, Math.min(Math.max(xPos+1,0),511), yPos+(-(yGap+25)));     // left
+      do Screen.drawRectangle(Math.min(Math.max(xPos+42,0),511), 0, Math.min(Math.max(xPos+43,0),511), yPos+(-(yGap+25))); // right
+      do Screen.drawRectangle(Math.min(Math.max(xPos+40,0),511), 0, Math.min(Math.max(xPos+40,0),511), yPos+(-(yGap+25))); // shadow
+
+      // Draw trailing white shadows to clear previous frame (assuming right-to-left scrolling)
+      do Screen.setColor(false);
+      // bottom
+      do Screen.drawRectangle(Math.min(Math.max(xPos,0),511), yPos+32, Math.min(Math.max(xPos+(1+xVel),0),511), yPos+53);       // clside
+      do Screen.drawRectangle(Math.min(Math.max(xPos+46,0),511), yPos+30, Math.min(Math.max(xPos+(48+xVel),0),511), yPos+55);   // crside
+      do Screen.drawRectangle(Math.min(Math.max(xPos+2,0),511), yPos+56, Math.min(Math.max(xPos+(4+xVel),0),511), 255);         // clwall
+      do Screen.drawRectangle(Math.min(Math.max(xPos+44,0),511), yPos+56, Math.min(Math.max(xPos+(46+xVel),0),511), 255);       // crwall
+      // top
+      do Screen.drawRectangle(Math.min(Math.max(xPos,0),511), yPos+(-(yGap+23)), Math.min(Math.max(xPos+1,0),511), yPos+(-(yGap+1)));     // clside
+      do Screen.drawRectangle(Math.min(Math.max(xPos+46,0),511), yPos+(-(yGap+25)), Math.min(Math.max(xPos+47,0),511), 1+(yPos+(-yGap))); // crside
+      do Screen.drawRectangle(Math.min(Math.max(xPos+2,0),511), 0, Math.min(Math.max(xPos+3,0),511), yPos+(-(yGap+26)));                  // clwall
+      do Screen.drawRectangle(Math.min(Math.max(xPos+44,0),511), 0, Math.min(Math.max(xPos+45,0),511), yPos+(-(yGap+25)));                // crwall
+      return;
+   }
+
+   method void tick() {
+      let tick = tick + 1; 
+      // skip every 5th tick (overall slow down a bit)
+      if (tick = 5) {
+         let tick = 0;
+      } else {
+         let xPos = xPos - xVel;
+         // out of bounds (left)
+         if (xPos < (-50)) {
+            let coin = true;
+            let xPos = 514;
+            let yPos = LCGRandom.randRange(80,194);
+         } 
+         // far out of bounds (right)
+         if (xPos > 614) {
+            let yPos = LCGRandom.randRange(80,194);
+         }
+      }
+      return;
+   }
+
+   method void update() {
+      do tick();
+      do draw();
+      return;
+   }
+
+   method int x() {
+      return xPos;
+   }
+
+   method int y() {
+      return yPos;
+   }
+
+   method int is_player_inside_me(int x, int y) {
+      if ((x>(xPos-32))&(x<(xPos+40))) {  // inside pipe region (left-right)
+         if ((y>yPos)|(y<(yPos-(yGap+6)))) { // inside pipe boundary (bottom-top)
+            return 2; // collision
+         }
+         if (coin) {
+            let coin = false; 
+            return 1; // safe-inside-region first tick
+         }
+         else {return 0;} // safe-inside-region other tick
+      }
+      return 0; // not in pipe region
+   }
+
+   method void reset(int x, int y) {
+      let xPos = x;
+      let yPos = y;
+      let tick = -1;
+      let coin = true;
+      return;
+   }
+}

@@ -1,0 +1,198 @@
+
+class Game {
+   // game speed (throttling)
+   field int delay;
+   // objects
+   field Player player;
+   field Pipe pipe1;
+   field Pipe pipe2;
+   field Pipe pipe3;
+   field Score score;
+   // internal states
+   field char key;      
+   field char last_key;
+   field boolean first_jump;
+   field boolean exit;
+   field boolean reset;
+   field boolean quit;
+   field int pipe_interaction;
+   // profiling
+   field int frames1;
+   field Array info;
+
+   constructor Game new(int d) {
+      let delay = d;
+      // initialize (allocate) objects
+      let player = Player.new(8, 128);
+      do Pipe.init(2, 50);
+      let pipe1 = Pipe.new(614+((560/3)*0), 128);
+      let pipe2 = Pipe.new(614+((560/3)*1), 128);
+      let pipe3 = Pipe.new(614+((560/3)*2), 128);
+      let score = Score.new();
+      let info = Array.new(6);
+      let info[0] = "ET:";
+      let info[1] = " (";
+      let info[2] = "ms)";
+      let info[3] = "  ";
+      let info[4] = "Use <> arrow keys to set game speed (delay per frame).";
+      let info[5] = "                                                      ";
+      return this;
+   }
+
+   method void dispose() {
+      // dispose of (deallocate) objects
+      do player.dispose();
+      do pipe1.dispose();
+      do pipe2.dispose();
+      do pipe3.dispose();
+      do score.dispose();
+      do info.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   // handle game logic (keyboard input)
+   method void handle_input() {
+      let key = Keyboard.keyPressed();
+      //
+      if (key = 81) { // Q
+         let exit = true; 
+         let quit = true;
+      }
+      if ((key = 82) & (~first_jump)) { // R
+         let exit = true; 
+         let reset = true;
+      }
+      if ((key = 32) & (~(last_key=32))) { // space
+         do player.jump();
+         if (first_jump) {
+            // first jump (spacebar click) starts the game
+            let first_jump = false;
+            // replace title and delete instruction messages
+            do LCGRandom.setSeed(frames1);
+            do SpriteManager.draw_title_getready(10+(32*16));
+            do Screen.setColor(false);
+            do Screen.drawRectangle(160,76,350,100);
+            do Output.moveCursor(22,0);
+            do Output.printString(info[5]);
+            do Output.moveCursor(21,0);
+            do Output.printString(info[5]);
+         }
+      } else {
+         // debug controls: (decrease or increase the time between frames)
+         if (((key = 130) & (~(last_key=130))) & (delay > 0)) { let delay = delay - 1; }   // left arrow
+         if ((key = 132) & (~(last_key=132))) { let delay = delay + 1; }   // right arrow
+      }
+      //
+      let last_key = key;
+      return;
+   }
+
+   // handler for pipe interactions
+   method void handle_pipe(int pipe_interaction) {
+      if (pipe_interaction=2) { // Collision
+         let exit = true;
+      } else {
+         if (pipe_interaction=1) { // Passing by
+            do score.increment();
+         }
+      }
+      return;
+   }
+
+   // update all active objects every frame
+   method void refresh() {
+      // update player animation
+      do player.update();  
+      // update the game sprites if started
+      if ((~first_jump)) { 
+         // update pipes (they are moved every frame)
+         do pipe1.update();
+         do pipe2.update();
+         do pipe3.update();
+         // redraw score counter (in case it is behind pipes)
+         do score.show();
+         // handle player-pipe colision (everyone moves/updates every frame)
+         do handle_pipe(pipe1.is_player_inside_me(player.x(),player.y()));
+         do handle_pipe(pipe2.is_player_inside_me(player.x(),player.y()));
+         do handle_pipe(pipe3.is_player_inside_me(player.x(),player.y()));
+      }
+      return;
+   }
+
+   // "clock (delay)" printer (profiling tool)
+   method void render_vitals() {
+         let frames1 = frames1 + 1;
+         if (frames1 < 0) { 
+            let frames1 = 0;
+            if (first_jump) {do Output.moveCursor(21,0);} 
+            else {do Output.moveCursor(22,0);}
+            do Output.printString(info[5]);
+         }
+         do Output.moveCursor(22,0);
+         if (first_jump) {
+            do Output.printString(info[4]);
+            do Output.moveCursor(21,0);
+         }
+         do Output.printString(info[0]);
+         do Output.printInt(frames1);
+         do Output.printString(info[1]);
+         do Output.printInt(delay);
+         do Output.printString(info[2]);
+         do Output.printString(info[3]);
+      return;
+   }
+
+   // the main game control
+   method boolean run() {
+      // init all variables
+      let key = 0;
+      let last_key = 0;
+      let first_jump = true;
+      let exit = false;
+      let reset = false;
+      let quit = false;
+      let frames1 = 0;
+
+      // draw the introductory messages
+      do SpriteManager.draw_title_flappybird(10+(32*16));
+      do SpriteManager.draw_title_spacebar(10+(32*76));
+
+      // enter the play loop
+      while (~exit) {
+         // game logic and render
+         do handle_input();
+         do refresh();
+         // handle profiling, clock and delays
+         do render_vitals();
+         do Sys.wait(delay);
+      }
+      if ((~quit)) { // write "Game Over" if allowed to restart (not quitting)
+         do SpriteManager.draw_title_gameover(10+(32*100));
+         do SpriteManager.draw_title_resetkey(11+(32*160));
+      }
+      // wait to confirm reset, or to quit
+      while ((~reset)) {
+         let key = Keyboard.keyPressed();
+         if (key = 81) { // Q to quit
+            return false;
+         }
+         if (key = 82) { // R to reset
+            let reset = true;
+         }
+      } 
+      do reset();  
+      return true;
+   }
+
+   // recycle already allocated objects upon restart
+   method void reset() {
+      do Screen.clearScreen();
+      do player.reset(8, 128);
+      do pipe1.reset(614+((560/3)*0), 128);
+      do pipe2.reset(614+((560/3)*1), 128);
+      do pipe3.reset(614+((560/3)*2), 128);
+      do score.reset();
+      return;
+   }
+}

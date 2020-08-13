@@ -1,0 +1,733 @@
+function Pipe.init 0
+push argument 0
+pop static 0
+push argument 1
+pop static 1
+push constant 0
+return
+function Pipe.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+push argument 0
+push argument 1
+call Pipe.reset 3
+pop temp 0
+push pointer 0
+return
+function Pipe.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Pipe.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 30
+add
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 31
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 54
+add
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 55
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 30
+add
+push this 0
+push constant 1
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 54
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 30
+add
+push this 0
+push constant 45
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 55
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 30
+add
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 55
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 54
+add
+push this 0
+push constant 1
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 54
+add
+push this 0
+push constant 43
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 40
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 54
+add
+push this 0
+push constant 40
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+neg
+add
+push this 0
+push constant 45
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 1
+sub
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+push this 0
+push constant 45
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 24
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 23
+add
+neg
+add
+push this 0
+push constant 1
+sub
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+push this 0
+push constant 45
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 0
+push this 0
+push constant 1
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 42
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 0
+push this 0
+push constant 43
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 40
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 0
+push this 0
+push constant 40
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 32
+add
+push this 0
+push constant 1
+push static 0
+add
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 53
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 46
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 30
+add
+push this 0
+push constant 48
+push static 0
+add
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 55
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 56
+add
+push this 0
+push constant 4
+push static 0
+add
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push constant 56
+add
+push this 0
+push constant 46
+push static 0
+add
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 23
+add
+neg
+add
+push this 0
+push constant 1
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 1
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 46
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+push this 0
+push constant 47
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 1
+push this 1
+push static 1
+neg
+add
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 0
+push this 0
+push constant 3
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 26
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 44
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push constant 0
+push this 0
+push constant 45
+add
+push constant 0
+call Math.max 2
+push constant 511
+call Math.min 2
+push this 1
+push static 1
+push constant 25
+add
+neg
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Pipe.tick 0
+push argument 0
+pop pointer 0
+push this 2
+push constant 1
+add
+pop this 2
+push this 2
+push constant 5
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 2
+goto IF_END0
+label IF_FALSE0
+push this 0
+push static 0
+sub
+pop this 0
+push this 0
+push constant 50
+neg
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop this 3
+push constant 514
+pop this 0
+push constant 80
+push constant 194
+call LCGRandom.randRange 2
+pop this 1
+label IF_FALSE1
+push this 0
+push constant 614
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 80
+push constant 194
+call LCGRandom.randRange 2
+pop this 1
+label IF_FALSE2
+label IF_END0
+push constant 0
+return
+function Pipe.update 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Pipe.tick 1
+pop temp 0
+push pointer 0
+call Pipe.draw 1
+pop temp 0
+push constant 0
+return
+function Pipe.x 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Pipe.y 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Pipe.is_player_inside_me 0
+push argument 0
+pop pointer 0
+push argument 1
+push this 0
+push constant 32
+sub
+gt
+push argument 1
+push this 0
+push constant 40
+add
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 2
+push this 1
+gt
+push argument 2
+push this 1
+push static 1
+push constant 6
+add
+sub
+lt
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 2
+return
+label IF_FALSE1
+push this 3
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop this 3
+push constant 1
+return
+goto IF_END2
+label IF_FALSE2
+push constant 0
+return
+label IF_END2
+label IF_FALSE0
+push constant 0
+return
+function Pipe.reset 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push argument 2
+pop this 1
+push constant 1
+neg
+pop this 2
+push constant 0
+not
+pop this 3
+push constant 0
+return

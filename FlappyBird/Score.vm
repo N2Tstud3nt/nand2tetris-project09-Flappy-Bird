@@ -1,0 +1,279 @@
+function Score.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+call Score.reset 1
+pop temp 0
+push pointer 0
+return
+function Score.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Score.render 0
+push argument 0
+pop pointer 0
+push argument 2
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit0 1
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push argument 2
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit1 1
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push argument 2
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit2 1
+pop temp 0
+goto IF_END2
+label IF_FALSE2
+push argument 2
+push constant 3
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit3 1
+pop temp 0
+goto IF_END3
+label IF_FALSE3
+push argument 2
+push constant 4
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit4 1
+pop temp 0
+goto IF_END4
+label IF_FALSE4
+push argument 2
+push constant 5
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit5 1
+pop temp 0
+goto IF_END5
+label IF_FALSE5
+push argument 2
+push constant 6
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit6 1
+pop temp 0
+goto IF_END6
+label IF_FALSE6
+push argument 2
+push constant 7
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit7 1
+pop temp 0
+goto IF_END7
+label IF_FALSE7
+push argument 2
+push constant 8
+eq
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit8 1
+pop temp 0
+goto IF_END8
+label IF_FALSE8
+push argument 2
+push constant 9
+eq
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push argument 1
+push constant 512
+add
+call SpriteManager.draw_digit9 1
+pop temp 0
+goto IF_END9
+label IF_FALSE9
+label IF_END9
+label IF_END8
+label IF_END7
+label IF_END6
+label IF_END5
+label IF_END4
+label IF_END3
+label IF_END2
+label IF_END1
+label IF_END0
+push constant 0
+return
+function Score.show 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 99
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+push constant 16
+push this 1
+call Score.render 3
+pop temp 0
+push pointer 0
+push constant 14
+push this 2
+call Score.render 3
+pop temp 0
+push pointer 0
+push constant 12
+push this 3
+call Score.render 3
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push this 0
+push constant 9
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+push constant 16
+push this 1
+call Score.render 3
+pop temp 0
+push pointer 0
+push constant 14
+push this 2
+call Score.render 3
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push this 0
+push constant 0
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push pointer 0
+push constant 15
+push this 1
+call Score.render 3
+pop temp 0
+label IF_FALSE2
+label IF_END1
+label IF_END0
+push constant 0
+return
+function Score.increment 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push this 1
+push constant 9
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 1
+push this 2
+push constant 1
+add
+pop this 2
+push this 2
+push constant 9
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop this 2
+push this 3
+push constant 1
+add
+pop this 3
+label IF_FALSE1
+label IF_FALSE0
+push constant 0
+return
+function Score.value 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Score.reset 0
+push argument 0
+pop pointer 0
+push constant 0
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+pop this 3
+push constant 0
+pop this 0
+push constant 0
+return

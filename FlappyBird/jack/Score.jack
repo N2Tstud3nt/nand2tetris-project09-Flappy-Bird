@@ -1,0 +1,79 @@
+
+class Score {
+   field int total;
+   field int value1;
+   field int value2;
+   field int value3;
+
+   constructor Score new() {
+      do reset();
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   // digit to digitImage mapper
+   method void render(int x, int v) {
+      if (v = 0) {do SpriteManager.draw_digit0(x+512);} else { 
+      if (v = 1) {do SpriteManager.draw_digit1(x+512);} else { 
+      if (v = 2) {do SpriteManager.draw_digit2(x+512);} else { 
+      if (v = 3) {do SpriteManager.draw_digit3(x+512);} else { 
+      if (v = 4) {do SpriteManager.draw_digit4(x+512);} else { 
+      if (v = 5) {do SpriteManager.draw_digit5(x+512);} else { 
+      if (v = 6) {do SpriteManager.draw_digit6(x+512);} else { 
+      if (v = 7) {do SpriteManager.draw_digit7(x+512);} else { 
+      if (v = 8) {do SpriteManager.draw_digit8(x+512);} else { 
+      if (v = 9) {do SpriteManager.draw_digit9(x+512);} else { 
+      }}}}}}}}}}
+      return;
+   }
+
+   // handles scores in range 0...999
+   method void show() {
+      if (total > 99) {
+         do render(16,value1);
+         do render(14,value2);
+         do render(12,value3);
+      } else {
+         if (total > 9) {
+            do render(16,value1);
+            do render(14,value2);
+         }
+         else {
+            if (total > 0) {do render(15,value1);}
+         }
+      }
+      return;
+   }
+
+   // keeps track of individual digits
+   method void increment() {
+      let total = total + 1;
+      let value1 = value1 + 1;
+      if (value1 > 9) {
+         let value1 = 0;
+         let value2 = value2 + 1;
+         if (value2 > 9) {
+            let value2 = 0;
+            let value3 = value3 + 1;
+         }
+      }
+      return;
+   }
+
+   method int value() {
+      return total;
+   }
+
+   method void reset() {
+      let value1 = 0;
+      let value2 = 0;
+      let value3 = 0;
+      let total = 0;
+      return;
+   }
+
+}
